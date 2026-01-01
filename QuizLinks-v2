@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSSC GK Pro | Dark Edition</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --accent-glow: rgba(56, 189, 248, 0.5);
+            /* Subject Specific Colors */
+            --history: #f59e0b;
+            --geography: #10b981;
+            --economics: #8b5cf6;
+            --polity: #ef4444;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        /* Neon Search Bar */
+        #searchBar {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 25px;
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            border-radius: 50px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+        }
+
+        #searchBar:focus {
+            outline: none;
+            border-color: #38bdf8;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* Grid Layout */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* Glassmorphism Card Style */
+        .category-card {
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            border-radius: 20px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .category-card:hover {
+            transform: scale(1.03);
+            border-color: #475569;
+        }
+
+        .category-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+        }
+
+        /* Color Coding */
+        .history-card::before { background: var(--history); }
+        .history-card h2 { color: var(--history); }
+        
+        .geography-card::before { background: var(--geography); }
+        .geography-card h2 { color: var(--geography); }
+
+        .economics-card::before { background: var(--economics); }
+        .economics-card h2 { color: var(--economics); }
+
+        .polity-card::before { background: var(--polity); }
+        .polity-card h2 { color: var(--polity); }
+
+        h2 {
+            margin: 0 0 20px 0;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Animated Quiz Links */
+        .quiz-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            background: #0f172a;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .quiz-link:hover {
+            background: #1e293b;
+            color: #fff;
+            border-color: #38bdf8;
+            padding-left: 20px;
+        }
+
+        .quiz-link::after {
+            content: "→";
+            opacity: 0;
+            transition: 0.2s;
+        }
+
+        .quiz-link:hover::after {
+            opacity: 1;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>OSSC QUIZ HUB</h1>
+        <p style="color: var(--text-dim);">Sharpen your GK for Odisha State Exams</p>
+    </header>
+    
+    <input type="text" id="searchBar" placeholder="Search History, Rivers, Constitution..." onkeyup="filterQuizzes()">
+
+    <div class="container" id="quizContainer">
+        </div>
+
+    <script>
+        const categories = [
+            { id: 'history', name: 'History', icon: '🏛️' },
+            { id: 'geography', name: 'Geography', icon: '🌍' },
+            { id: 'economics', name: 'Economics', icon: '📈' },
+            { id: 'polity', name: 'Polity', icon: '⚖️' }
+        ];
+
+        const quizData = [
+            { catId: 'history', name: "to be updated", url: "YOUR_LINK_HERE" },
+            { catId: 'history', name: "to be updated", url: "YOUR_LINK_HERE" },
+            { catId: 'geography', name: "to be updated", url: "YOUR_LINK_HERE" },
+            { catId: 'geography', name: "to be updated", url: "YOUR_LINK_HERE" },
+            { catId: 'economics', name: "to be updated", url: "YOUR_LINK_HERE" },
+            { catId: 'economics', name: "to be updated", url: "YOUR_LINK_HERE" },
+            { catId: 'polity', name: "to be updated", url: "YOUR_LINK_HERE" },
+            { catId: 'polity', name: "to be updated", url: "YOUR_LINK_HERE" }
+        ];
+
+        function render() {
+            const container = document.getElementById('quizContainer');
+            
+            container.innerHTML = categories.map(cat => {
+                const filteredQuizzes = quizData.filter(q => q.catId === cat.id);
+                return `
+                    <div class="category-card ${cat.id}-card">
+                        <h2><span>${cat.icon}</span> ${cat.name}</h2>
+                        <div class="link-list">
+                            ${filteredQuizzes.map(q => `
+                                <a href="${q.url}" class="quiz-link">${q.name}</a>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterQuizzes() {
+            let input = document.getElementById('searchBar').value.toLowerCase();
+            let links = document.querySelectorAll('.quiz-link');
+            let cards = document.querySelectorAll('.category-card');
+
+            links.forEach(link => {
+                link.style.display = link.innerText.toLowerCase().includes(input) ? "flex" : "none";
+            });
+
+            // Hide card if no links are visible inside it
+            cards.forEach(card => {
+                const visibleLinks = card.querySelectorAll('.quiz-link[style="display: flex;"]');
+                card.style.display = (visibleLinks.length === 0 && input !== "") ? "none" : "block";
+            });
+        }
+
+        render();
+    </script>
+</body>
+</html>
